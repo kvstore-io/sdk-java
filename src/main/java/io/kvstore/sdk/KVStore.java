@@ -9,9 +9,7 @@ import io.kvstore.sdk.clients.impls.ItemsClientImpl;
 import io.kvstore.sdk.clients.impls.StorageClientImpl;
 import io.kvstore.sdk.exceptions.KVStoreException;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -61,7 +59,7 @@ public class KVStore {
 
     @SuppressWarnings("unchecked")
     public <T> T get(String endpoint, String contentType, Class<T> pojoClass) {
-        String s = this.doRequest(endpoint, HTTP_METHOD.GET, false, true, contentType, null);
+        String s = this.doRequest(endpoint, HTTP_METHOD.GET, false, contentType, null);
         if (pojoClass != null) {
             try {
                 return objectMapper.readValue(s, pojoClass);
@@ -86,11 +84,11 @@ public class KVStore {
             payload = (String) object;
             contentType = CONTENT_TYPE_TEXT;
         }
-        this.doRequest(endpoint, HTTP_METHOD.PUT, true, true, contentType, payload);
+        this.doRequest(endpoint, HTTP_METHOD.PUT, true, contentType, payload);
     }
 
     public void delete(String endpoint) {
-        this.doRequest(endpoint, HTTP_METHOD.DELETE, false, true, null, null);
+        this.doRequest(endpoint, HTTP_METHOD.DELETE, false, null, null);
     }
 
     public String post(String endpoint, Object object) {
@@ -105,10 +103,10 @@ public class KVStore {
             }
         }
 
-        return this.doRequest(endpoint, HTTP_METHOD.POST, true, true, contentType, payload);
+        return this.doRequest(endpoint, HTTP_METHOD.POST, true, contentType, payload);
     }
 
-    private String doRequest(String endpoint, HTTP_METHOD httpMethod, boolean doOut, boolean doIn, String requestContentType, String payload) {
+    private String doRequest(String endpoint, HTTP_METHOD httpMethod, boolean doOut, String requestContentType, String payload) {
         try {
             URL url = new URL(getBaseURL() + endpoint);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -121,7 +119,6 @@ public class KVStore {
             connection.setConnectTimeout(5000);
             connection.setReadTimeout(5000);
             connection.setDoOutput(doOut);
-            connection.setDoInput(doIn);
 
             if (payload != null) {
                 try (DataOutputStream writer = new DataOutputStream(connection.getOutputStream())) {
@@ -130,37 +127,25 @@ public class KVStore {
                 }
             }
 
-            int responseCode = connection.getResponseCode();
-
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-                String inputLine;
-                StringBuilder response = new StringBuilder();
-
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
-
-                return response.toString();
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                return readInputStream(connection.getInputStream());
             } else {
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-
-                String inputLine;
-                StringBuilder response = new StringBuilder();
-
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
-                throw new KVStoreException(response.toString());
+                throw new KVStoreException(readInputStream(connection.getErrorStream()));
             }
-
-        } catch (KVStoreException e) {
-            throw e;
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private String readInputStream(InputStream inputStream) throws IOException {
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(inputStream))) {
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            return response.toString();
         }
     }
 
