@@ -15,7 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <jackson.version>2.9.8</jackson.version>
+        <jackson.version>[2.9.10.5,)</jackson.version>
         <junit.version>4.12</junit.version>
         <kvstore-io.representationals.version>0.0.1-SNAPSHOT</kvstore-io.representationals.version>
     </properties>
