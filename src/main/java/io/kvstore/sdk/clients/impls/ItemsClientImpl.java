@@ -32,6 +32,7 @@ public class ItemsClientImpl implements ItemsClient {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Item> list(String collectionName, Integer offset, Integer limit, SortType sortType) {
         List<Map<String, Object>> list = kvStore.get("/collections/" + collectionName + "/items", KVStore.CONTENT_TYPE_JSON, List.class);
         return list.stream().map(Item::instance).collect(Collectors.toList());

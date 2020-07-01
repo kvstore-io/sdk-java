@@ -3,6 +3,7 @@ package io.kvstore.sdk;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.kvstore.sdk.clients.CollectionsClient;
 import io.kvstore.sdk.clients.ItemsClient;
+import io.kvstore.sdk.clients.KVStoreClient;
 import io.kvstore.sdk.clients.StorageClient;
 import io.kvstore.sdk.clients.impls.CollectionsClientImpl;
 import io.kvstore.sdk.clients.impls.ItemsClientImpl;
@@ -13,7 +14,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class KVStore {
+public class KVStore implements KVStoreClient {
     public enum ENV {PRODUCTION, STAGING, DEVELOPMENT}
 
     private enum HTTP_METHOD {GET, PUT, DELETE, POST}
@@ -23,26 +24,33 @@ public class KVStore {
 
     private final String APIToken;
     private final ENV env;
+    private final Integer port;
 
     private static final String productionBaseURL = "https://api.kvstore.io";
     private static final String stagingBaseURL = "https://staging-api.kvstore.io";
-    private static final String developmentBaseURL = "http://localhost:8080";
+    private static final String developmentBaseURL = "http://localhost";
+
 
     private final ObjectMapper objectMapper;
 
-    private KVStore(String APIToken, ENV env) {
+    private KVStore(String APIToken, ENV env, Integer port) {
         this.APIToken = APIToken;
         this.env = env;
+        this.port = port;
 
         objectMapper = new ObjectMapper();
     }
 
-    public static KVStore instance(String APIToken) {
-        return new KVStore(APIToken, ENV.PRODUCTION);
+    public static KVStoreClient instance(String APIToken) {
+        return new KVStore(APIToken, ENV.PRODUCTION, null);
     }
 
-    public static KVStore instance(String APIToken, ENV env) {
-        return new KVStore(APIToken, env);
+    public static KVStoreClient instance(String APIToken, ENV env) {
+        return new KVStore(APIToken, env, null);
+    }
+
+    public static KVStoreClient instance(String APIToken, int port) {
+        return new KVStore(APIToken, ENV.DEVELOPMENT, port);
     }
 
     public StorageClient storageClient() {
@@ -156,7 +164,7 @@ public class KVStore {
             case PRODUCTION:
                 return productionBaseURL;
             default:
-                return developmentBaseURL;
+                return developmentBaseURL + ":" + ((port != null) ? port : "8080");
         }
     }
 

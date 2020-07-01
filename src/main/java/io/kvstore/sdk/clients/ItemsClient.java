@@ -69,12 +69,12 @@ public interface ItemsClient {
         }
     }
 
-    public ItemValue get(String collectionName, String itemName);
+    ItemValue get(String collectionName, String itemName);
 
-    public void put(String collectionName, String itemName, String value);
+    void put(String collectionName, String itemName, String value);
 
-    public void delete(String collectionName, String itemName);
+    void delete(String collectionName, String itemName);
 
-    public List<Item> list(String collectionName, Integer offset, Integer limit, SortType sortType);
+    List<Item> list(String collectionName, Integer offset, Integer limit, SortType sortType);
 
 }
