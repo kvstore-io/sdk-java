@@ -104,7 +104,7 @@ public interface CollectionsClient {
          * Read the "public_write" flag
          *
          * @return the status of the option
-         * @see <a href="https://www.kvstore.io/#/documentation/public-write">Public Write</a> feature on the documentation page
+         * @see <a href="https://www.kvstore.io/#/documentation/public-write">Public Write on the documentation page</a>
          */
         public Boolean getPublicWrite() {
             return publicWrite;
@@ -114,7 +114,7 @@ public interface CollectionsClient {
          * Read the "public_read" flag
          *
          * @return the status of the option
-         * @see <a href="https://www.kvstore.io/#/documentation/public-read">Public Read</a> feature on the documentation page
+         * @see <a href="https://www.kvstore.io/#/documentation/public-read">Public Read on the documentation page</a>
          */
         public Boolean getPublicRead() {
             return publicRead;
@@ -140,8 +140,9 @@ public interface CollectionsClient {
         /**
          * Set the "public_write" flag
          *
+         * @param publicWrite true = enabled, false = disabled
          * @return the UpdateCollection bean itself
-         * @see <a href="https://www.kvstore.io/#/documentation/public-write">Public Write</a> feature on the documentation page
+         * @see <a href="https://www.kvstore.io/#/documentation/public-write">Public Write on the documentation page</a>
          */
         public UpdateCollection setPublicWrite(Boolean publicWrite) {
             this.publicWrite = publicWrite;
@@ -151,8 +152,9 @@ public interface CollectionsClient {
         /**
          * Set the "public_read" flag
          *
+         * @param publicRead true = enabled, false = disabled
          * @return the UpdateCollection bean itself
-         * @see <a href="https://www.kvstore.io/#/documentation/public-read">Public Read</a> feature on the documentation page
+         * @see <a href="https://www.kvstore.io/#/documentation/public-read">Public Read on the documentation page</a>
          */
         public UpdateCollection setPublicRead(Boolean publicRead) {
             this.publicRead = publicRead;
@@ -164,7 +166,7 @@ public interface CollectionsClient {
          *
          * @param webhook the webhook URL
          * @return the UpdateCollection bean itself
-         * @see <a href="https://www.kvstore.io/#/documentation/introduction">Introduction</a> page (webhook section)
+         * @see <a href="https://www.kvstore.io/#/documentation/introduction">Introduction page (webhook section)</a>
          */
         public UpdateCollection setWebhook(String webhook) {
             this.webhook = webhook;
@@ -176,7 +178,7 @@ public interface CollectionsClient {
          *
          * @param webhookSecret the secret to be sent to webhook to authenticate request
          * @return the UpdateCollection bean itself
-         * @see <a href="https://www.kvstore.io/#/documentation/introduction">Introduction</a> page (webhook section)
+         * @see <a href="https://www.kvstore.io/#/documentation/introduction">Introduction page (webhook section)</a>
          */
         public UpdateCollection setWebhookSecret(String webhookSecret) {
             this.webhookSecret = webhookSecret;

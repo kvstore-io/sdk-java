@@ -43,13 +43,15 @@ public interface StorageClient {
 
     /**
      * Get the user's storage descriptor
+     *
      * @return the Storage bean descriptor
      */
     Storage get();
 
     /**
      * Update the user's storage attributes
-     * @param storageUpdate
+     *
+     * @param storageUpdate the properties to update
      */
     void update(StorageUpdate storageUpdate);
 

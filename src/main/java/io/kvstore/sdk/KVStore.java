@@ -57,6 +57,7 @@ public class KVStore implements KVStoreClient {
     /**
      * Get an instance of KVStoreClient pointing to different environments
      * @param APIToken Secret key obtainable from the service dashboard
+     * @param env environment to connect to
      * @return instance of KVStoreClient
      * @see io.kvstore.sdk.KVStore.ENV
      */
