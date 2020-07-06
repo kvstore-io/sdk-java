@@ -6,7 +6,7 @@
 
     <groupId>io.kvstore</groupId>
     <artifactId>sdk-java</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-RC</version>
 
     <name>sdk-java</name>
     <description>Java SDK for KVStore.io</description>
