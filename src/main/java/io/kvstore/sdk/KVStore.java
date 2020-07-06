@@ -14,6 +14,10 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * Main class to access the KVStore.io services through this Java SDK.
+ * Please refer to the <a href="https://www.kvstore.io/#/documentation">documentation</a> section of the main website to learn the general concepts.
+ */
 public class KVStore implements KVStoreClient {
     public enum ENV {PRODUCTION, STAGING, DEVELOPMENT}
 
@@ -41,26 +45,56 @@ public class KVStore implements KVStoreClient {
         objectMapper = new ObjectMapper();
     }
 
+    /**
+     * io.kvstore.sdk.Main constructor to get an instance of KVStoreClient
+     * @param APIToken Secret key obtainable from the service dashboard
+     * @return instance of KVStoreClient
+     */
     public static KVStoreClient instance(String APIToken) {
         return new KVStore(APIToken, ENV.PRODUCTION, null);
     }
 
+    /**
+     * Get an instance of KVStoreClient pointing to different environments
+     * @param APIToken Secret key obtainable from the service dashboard
+     * @return instance of KVStoreClient
+     * @see io.kvstore.sdk.KVStore.ENV
+     */
     public static KVStoreClient instance(String APIToken, ENV env) {
         return new KVStore(APIToken, env, null);
     }
 
+    /**
+     * Constructor for development purposes
+     * @param APIToken Secret key obtainable from the service dashboard
+     * @param port the local port where the API run
+     * @return instance of KVStoreClient
+     * @see io.kvstore.sdk.clients.KVStoreClient
+     */
     public static KVStoreClient instance(String APIToken, int port) {
         return new KVStore(APIToken, ENV.DEVELOPMENT, port);
     }
 
+    /**
+     * Get the Storage entity handler
+     * @return the instance of the StorageClient handler
+     */
     public StorageClient storageClient() {
         return new StorageClientImpl(this);
     }
 
+    /**
+     * Get the Collections entities handler
+     * @return the instanche of the CollectionsClient handler
+     */
     public CollectionsClient collectionsClient() {
         return new CollectionsClientImpl(this);
     }
 
+    /**
+     * Get the Items entities handler
+     * @return the instanche of the ItemsClient handler
+     */
     public ItemsClient itemsClient() {
         return new ItemsClientImpl(this);
     }

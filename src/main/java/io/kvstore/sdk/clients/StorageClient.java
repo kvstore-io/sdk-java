@@ -2,6 +2,9 @@ package io.kvstore.sdk.clients;
 
 import java.util.UUID;
 
+/**
+ * This interface describes the allowed operations on the user's storage
+ */
 public interface StorageClient {
 
     class Storage {
@@ -38,8 +41,16 @@ public interface StorageClient {
         }
     }
 
+    /**
+     * Get the user's storage descriptor
+     * @return the Storage bean descriptor
+     */
     Storage get();
 
+    /**
+     * Update the user's storage attributes
+     * @param storageUpdate
+     */
     void update(StorageUpdate storageUpdate);
 
 }

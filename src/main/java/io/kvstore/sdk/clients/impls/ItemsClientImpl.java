@@ -4,6 +4,7 @@ import io.kvstore.api.representationals.utils.SortType;
 import io.kvstore.sdk.KVStore;
 import io.kvstore.sdk.clients.ItemsClient;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -34,7 +35,27 @@ public class ItemsClientImpl implements ItemsClient {
     @Override
     @SuppressWarnings("unchecked")
     public List<Item> list(String collectionName, Integer offset, Integer limit, SortType sortType) {
-        List<Map<String, Object>> list = kvStore.get("/collections/" + collectionName + "/items", KVStore.CONTENT_TYPE_JSON, List.class);
+        String url = "/collections/" + collectionName + "/items";
+
+        if (offset != null || limit != null || sortType != null) {
+            List<String> params = new ArrayList<>();
+
+            if (offset != null) {
+                params.add("offset=" + offset);
+            }
+
+            if (limit != null) {
+                params.add("limit=" + limit);
+            }
+
+            if (sortType != null) {
+                params.add("sort=" + sortType.name());
+            }
+
+            url += "?" + String.join("&", params);
+        }
+
+        List<Map<String, Object>> list = kvStore.get(url, KVStore.CONTENT_TYPE_JSON, List.class);
         return list.stream().map(Item::instance).collect(Collectors.toList());
     }
 

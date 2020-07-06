@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This interface describes the operations on storage values
+ */
 public interface ItemsClient {
 
     class Item {
@@ -69,12 +72,37 @@ public interface ItemsClient {
         }
     }
 
+    /**
+     * Get the value for the given collection and key
+     * @param collectionName the name of the collection
+     * @param itemName the key value
+     * @return the stored value
+     */
     ItemValue get(String collectionName, String itemName);
 
+    /**
+     * Store a value
+     * @param collectionName the name of the collection we're putting the value inside
+     * @param itemName the name of the key
+     * @param value the value to be stored
+     */
     void put(String collectionName, String itemName, String value);
 
+    /**
+     * Delete a stored value
+     * @param collectionName the name of the collection
+     * @param itemName the key value to be deleted
+     */
     void delete(String collectionName, String itemName);
 
+    /**
+     * Get the list of stored values inside a collection
+     * @param collectionName the name of the collection
+     * @param offset the offset to start from (default 0)
+     * @param limit the maximum number of items to fetch
+     * @param sortType the type of sorting (ascending or descending by value creation date)
+     * @return the list of found items
+     */
     List<Item> list(String collectionName, Integer offset, Integer limit, SortType sortType);
 
 }

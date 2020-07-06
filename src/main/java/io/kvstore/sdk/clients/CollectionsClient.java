@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * This interface describes operation on collections
+ */
 public interface CollectionsClient {
 
     class CollectionInfoCompact {
@@ -97,10 +100,22 @@ public interface CollectionsClient {
         private String webhook;
         private String webhookSecret;
 
+        /**
+         * Read the "public_write" flag
+         *
+         * @return the status of the option
+         * @see <a href="https://www.kvstore.io/#/documentation/public-write">Public Write</a> feature on the documentation page
+         */
         public Boolean getPublicWrite() {
             return publicWrite;
         }
 
+        /**
+         * Read the "public_read" flag
+         *
+         * @return the status of the option
+         * @see <a href="https://www.kvstore.io/#/documentation/public-read">Public Read</a> feature on the documentation page
+         */
         public Boolean getPublicRead() {
             return publicRead;
         }
@@ -122,21 +137,47 @@ public interface CollectionsClient {
             return this;
         }
 
+        /**
+         * Set the "public_write" flag
+         *
+         * @return the UpdateCollection bean itself
+         * @see <a href="https://www.kvstore.io/#/documentation/public-write">Public Write</a> feature on the documentation page
+         */
         public UpdateCollection setPublicWrite(Boolean publicWrite) {
             this.publicWrite = publicWrite;
             return this;
         }
 
+        /**
+         * Set the "public_read" flag
+         *
+         * @return the UpdateCollection bean itself
+         * @see <a href="https://www.kvstore.io/#/documentation/public-read">Public Read</a> feature on the documentation page
+         */
         public UpdateCollection setPublicRead(Boolean publicRead) {
             this.publicRead = publicRead;
             return this;
         }
 
+        /**
+         * Set the "webhook" URL
+         *
+         * @param webhook the webhook URL
+         * @return the UpdateCollection bean itself
+         * @see <a href="https://www.kvstore.io/#/documentation/introduction">Introduction</a> page (webhook section)
+         */
         public UpdateCollection setWebhook(String webhook) {
             this.webhook = webhook;
             return this;
         }
 
+        /**
+         * Set the webhook secret key
+         *
+         * @param webhookSecret the secret to be sent to webhook to authenticate request
+         * @return the UpdateCollection bean itself
+         * @see <a href="https://www.kvstore.io/#/documentation/introduction">Introduction</a> page (webhook section)
+         */
         public UpdateCollection setWebhookSecret(String webhookSecret) {
             this.webhookSecret = webhookSecret;
             return this;
@@ -152,14 +193,41 @@ public interface CollectionsClient {
         }
     }
 
+    /**
+     * List all collections
+     *
+     * @return the list of collections
+     */
     CollectionsList list();
 
+    /**
+     * Get the information bean for the given collection
+     *
+     * @param collectionName the name of the collection
+     * @return the information bean
+     */
     CollectionInfo get(String collectionName);
 
+    /**
+     * Create a new collection
+     *
+     * @param collectionName the name of the collection
+     */
     void create(String collectionName);
 
+    /**
+     * Update a collection
+     *
+     * @param collectionName   the name of the collection
+     * @param updateCollection the properties to update
+     */
     void update(String collectionName, UpdateCollection updateCollection);
 
+    /**
+     * Delete a collection
+     *
+     * @param collectionName the name of the collection
+     */
     void delete(String collectionName);
 
 }
